@@ -1,6 +1,8 @@
 buildscript {
     ext {
         springBootVersion = "2.0.6.RELEASE"
+        jacksonDatatypeVersion = "2.9.8"
+        mockitoVersion = "2.23.4"
     }
 
     repositories {
@@ -25,7 +27,9 @@ repositories {
 
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-web:$springBootVersion")
+    compile("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonDatatypeVersion")
     testCompile("org.springframework.boot:spring-boot-starter-test:$springBootVersion")
+    testCompile("org.mockito:mockito-core:$mockitoVersion")
 }
 
 bootRun.environment([
