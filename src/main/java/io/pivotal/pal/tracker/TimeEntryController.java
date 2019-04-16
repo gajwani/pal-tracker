@@ -16,33 +16,33 @@ public class TimeEntryController {
     }
 
     @PostMapping
-    public ResponseEntity create(@RequestBody TimeEntry toBeCreated) {
+    public ResponseEntity<TimeEntry> create(@RequestBody TimeEntry toBeCreated) {
         TimeEntry timeEntry = timeEntryRepository.create(toBeCreated);
-        return new ResponseEntity(timeEntry, HttpStatus.CREATED);
+        return ResponseEntity.created(null).body(timeEntry);// new ResponseEntity<>(timeEntry, HttpStatus.CREATED);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity read(@PathVariable long id) {
+    public ResponseEntity<TimeEntry> read(@PathVariable long id) {
         TimeEntry timeEntry = timeEntryRepository.find(id);
         if(timeEntry == null) {
             return ResponseEntity.notFound().build();
         }
-        return new ResponseEntity(timeEntry, HttpStatus.OK);
+        return ResponseEntity.ok(timeEntry);
     }
 
     @GetMapping
     public ResponseEntity<List<TimeEntry>> list() {
         List<TimeEntry> entries = timeEntryRepository.list();
-        return new ResponseEntity(entries, HttpStatus.OK);
+        return ResponseEntity.ok(entries);
     }
 
     @PutMapping("{id}")
-    public ResponseEntity update(@PathVariable long id, @RequestBody TimeEntry newValue) {
+    public ResponseEntity<TimeEntry> update(@PathVariable long id, @RequestBody TimeEntry newValue) {
         TimeEntry updatedEntry = timeEntryRepository.update(id, newValue);
         if(updatedEntry == null) {
             return ResponseEntity.notFound().build();
         }
-        return new ResponseEntity(updatedEntry, HttpStatus.OK);
+        return ResponseEntity.ok(updatedEntry);
     }
 
     @DeleteMapping("{id}")
