@@ -31,8 +31,10 @@ repositories {
 
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-web:$springBootVersion")
-    compile("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonDatatypeVersion")
     compile("org.springframework.boot:spring-boot-starter-jdbc:$springBootVersion")
+    compile("org.springframework.boot:spring-boot-starter-actuator:$springBootVersion")
+
+    compile("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonDatatypeVersion")
 
     compile("mysql:mysql-connector-java:$mysqlDriverVersion")
 
@@ -40,16 +42,24 @@ dependencies {
     testCompile("org.mockito:mockito-core:$mockitoVersion")
 }
 
+springBoot {
+    buildInfo()
+}
+
 def devDbUrl = "jdbc:mysql://localhost:3306/tracker_dev?user=tracker&useSSL=false&useTimezone=true&serverTimezone=UTC&useLegacyDatetimeCode=false"
 bootRun.environment([
      "WELCOME_MESSAGE": "hello",
      "SPRING_DATASOURCE_URL": devDbUrl,
+     "MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE": "*",
+     "MANAGEMENT_ENDPOINT_HEALTH_SHOWDETAILS": "always",
 ])
 
 def testDbUrl = "jdbc:mysql://localhost:3306/tracker_test?user=tracker&useSSL=false&useTimezone=true&serverTimezone=UTC&useLegacyDatetimeCode=false"
 test.environment([
      "WELCOME_MESSAGE": "Hello from test",
      "SPRING_DATASOURCE_URL": testDbUrl,
+     "MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE": "*",
+     "MANAGEMENT_ENDPOINT_HEALTH_SHOWDETAILS": "always",
 ])
 
 flyway {
